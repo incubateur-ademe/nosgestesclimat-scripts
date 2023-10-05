@@ -1,0 +1,10 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "publicodes-scripts API",
+  "entryPoints": ["./source", "./source/cli/", "./source/t9n/"],
+  "navigationLinks": {
+    "GitHub": "https://github.com/incubateur-ademe/publicodes-scripts"
+  },
+  "plugin": ["typedoc-plugin-export-functions"],
+  "commentStyle": "all"
+}
