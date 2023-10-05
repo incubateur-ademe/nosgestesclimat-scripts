@@ -1,0 +1,77 @@
+{
+  "name": "@incubateur-ademe/nosgestesclimat-scripts",
+  "version": "0.1.0",
+  "description": "Set of common code used both in the website and the model repository of NGC",
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch",
+    "clean": "rm -rf dist docs",
+    "docs": "typedoc",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./t9n": {
+      "import": "./dist/t9n/index.js",
+      "require": "./dist/t9n/index.cjs",
+      "types": "./dist/t9n/index.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.cjs",
+      "types": "./dist/cli/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": "git@github.com:incubateur-ademe/nsogstesclimat-scripts.git",
+  "bugs": "https://github.com/incubateur-ademe/nsogstesclimat-scripts/issues",
+  "keywords": [
+    "optimization",
+    "publicodes",
+    "tooling",
+    "scripting",
+    "constant folding"
+  ],
+  "author": "<emile.rolley@tuta.io>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "deepl-node": "^1.10.2",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "docdash": "^2.0.1",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.5.0",
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-export-functions": "^1.0.0",
+    "typescript": "^4.9.4",
+    "yaml": "^2.3.1"
+  },
+  "tsup": {
+    "entry": [
+      "source/index.ts",
+      "source/t9n/index.ts",
+      "source/cli/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "allowJs": true,
+    "sourceMap": true,
+    "dts": true,
+    "clean": true
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
