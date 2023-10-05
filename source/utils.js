@@ -8,12 +8,7 @@ const yaml = require('yaml')
 const LOCK_KEY_EXT = '.lock'
 const AUTO_KEY_EXT = '.auto'
 const PREVIOUS_REVIEW_KEY_EXT = '.previous_review'
-
-const publicDir = path.resolve('public')
-
-const t9nDir = path.resolve('data/i18n/t9n')
-
-const availableLanguages = ['fr', 'en-us'] //, 'es', 'it'] For now, we don't want es and it to be compile (it could create compilation errors).
+const availableLanguages = ['fr', 'en'] //, 'es', 'it'] For now, we don't want es and it to be compile (it could create compilation errors).
 const defaultLang = availableLanguages[0]
 
 const readYAML = (path) => {
@@ -318,7 +313,5 @@ module.exports = {
   objPath,
   assoc,
   customAssocPath,
-  publicDir,
-  t9nDir,
   mechanismsToTranslate,
 }
