@@ -5,6 +5,10 @@
  *
  */
 
+export function isI18nKey(key: string): boolean {
+  return null !== key.match(/(?<=[A-zÀ-ü0-9])\.(?=[A-zÀ-ü0-9])/)
+}
+
 // TODO: could be optimized?
 export function nestedObjectToDotNotation(obj: object): object {
   const result = {}

@@ -1,11 +1,7 @@
 import { existsSync, writeFileSync } from 'fs'
-import { readYAML, LOCK_KEY_EXT } from '..'
+import { readYAML, LOCK_KEY_EXT, isI18nKey } from '..'
 
-function isI18nKey(key: string): boolean {
-  return null !== key.match(/(?<=[A-zÀ-ü0-9])\.(?=[A-zÀ-ü0-9])/)
-}
-
-export default function (
+export function getUiMissingTranslations(
   sourcePath: string,
   targetPath: string,
   override = false,

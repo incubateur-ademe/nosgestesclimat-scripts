@@ -13,17 +13,17 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./t9n": {
       "import": "./dist/t9n/index.js",
-      "require": "./dist/t9n/index.cjs",
+      "require": "./dist/t9n/index.js",
       "types": "./dist/t9n/index.d.ts"
     },
     "./cli": {
       "import": "./dist/cli/index.js",
-      "require": "./dist/cli/index.cjs",
+      "require": "./dist/cli/index.js",
       "types": "./dist/cli/index.d.ts"
     }
   },
@@ -33,17 +33,14 @@
   "repository": "git@github.com:incubateur-ademe/nsogstesclimat-scripts.git",
   "bugs": "https://github.com/incubateur-ademe/nsogstesclimat-scripts/issues",
   "keywords": [
-    "optimization",
-    "publicodes",
-    "tooling",
-    "scripting",
-    "constant folding"
+    "scripting"
   ],
   "author": "<emile.rolley@tuta.io>",
   "license": "MIT",
   "dependencies": {
     "@types/node": "^18.11.18",
     "deepl-node": "^1.10.2",
+    "dotenv": "^16.3.1",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 // require('isomorphic-fetch')
 import deepl, { SourceLanguageCode, TargetLanguageCode } from 'deepl-node'
 
-const NO_TRANS_CHAR = ' '
+export const NO_TRANS_CHAR = ' '
 
 const translator = new deepl.Translator(process.env.DEEPL_API_KEY)
 

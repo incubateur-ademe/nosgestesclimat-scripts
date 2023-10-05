@@ -88,17 +88,20 @@ const defaultOpts: Args = {
   },
 }
 
-export default function (
+export function getArgs(
   description: string,
-  defaultSrcFile?: string,
-  opts?: Args,
+  opts?: Args & { defaultSrcFile?: string },
 ) {
   let args = yargs.usage(`${description}\n\nUsage: node $0 [options]`)
   Object.entries(opts).forEach(([name, opt]) => {
-    args = args.option(name, {
-      ...defaultOpts[name],
-      ...opt,
-    })
+    if (typeof opt === 'object') {
+      args = args.option(name, {
+        ...defaultOpts[name],
+        ...opt,
+      })
+    } else if (name !== 'defaultSrcFile') {
+      args = args.option(name, defaultOpts[name])
+    }
   })
 
   const argv = args.help().alias('help', 'h').argv
@@ -116,7 +119,7 @@ export default function (
 
   const destRegions = argv.model ?? opts?.model?.supportedRegionCodes
 
-  const srcFile = argv.file ?? defaultSrcFile
+  const srcFile = argv.file ?? opts.defaultSrcFile
 
   return {
     srcLang,
