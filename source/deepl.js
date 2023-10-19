@@ -31,7 +31,7 @@ const escapeMarkdownLinks = (str) => {
 }
 
 function normalizeLang(lang) {
-  if (lang === 'en') {
+  if (lang.toUpperCase() === 'EN') {
     return 'en-GB'
   }
   return lang
