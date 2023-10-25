@@ -10,7 +10,7 @@ const main = async () => {
   const glossaryFRToEN = await translator.createGlossary(
     'Nos Gestes Climat glossary',
     'fr',
-    'en-US',
+    'en-GB',
     glossaryEntries,
   )
   console.log('Available glossaries:', await translator.listGlossaries())
