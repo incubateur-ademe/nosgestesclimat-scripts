@@ -184,7 +184,7 @@ const getArgs = (description, opts) => {
     destRegions,
     force: argv.force,
     remove: argv.remove,
-    srcFile: argv.file,
+    srcFile: argv.file ?? opts.defaultSrcFile,
     markdown: argv.markdown,
     onlyUpdateLocks: argv.onlyUpdateLocks,
     interactiveMode: argv.interactiveMode,
