@@ -4,47 +4,13 @@
 
 const yargs = require('yargs')
 const prompt = require('prompt-sync')()
+const c = require('ansi-colors')
 
 const utils = require('./utils')
 
-const colors = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  dim: '\x1b[2m',
-  italic: '\x1b[3m',
-  underscore: '\x1b[4m',
-  blink: '\x1b[5m',
-  reverse: '\x1b[7m',
-  hidden: '\x1b[8m',
-  fgBlack: '\x1b[30m',
-  fgRed: '\x1b[31m',
-  fgGreen: '\x1b[32m',
-  fgYellow: '\x1b[33m',
-  fgBlue: '\x1b[34m',
-  fgMagenta: '\x1b[35m',
-  fgCyan: '\x1b[36m',
-  fgWhite: '\x1b[37m',
-  bgBlack: '\x1b[40m',
-  bgRed: '\x1b[41m',
-  bgGreen: '\x1b[42m',
-  bgYellow: '\x1b[43m',
-  bgBlue: '\x1b[44m',
-  bgMagenta: '\x1b[45m',
-  bgCyan: '\x1b[46m',
-  bgWhite: '\x1b[47m',
-}
-
-const withStyle = (color, text) => `${color}${text}${colors.reset}`
-const printErr = (message) => console.error(withStyle(colors.fgRed, message))
-const printWarn = (message) => console.warn(withStyle(colors.fgYellow, message))
-const printInfo = (message) => console.log(withStyle(colors.fgCyan, message))
-
-const yellow = (str) => withStyle(colors.fgYellow, str)
-const red = (str) => withStyle(colors.fgRed, str)
-const green = (str) => withStyle(colors.fgGreen, str)
-const magenta = (str) => withStyle(colors.fgMagenta, str)
-const dim = (str) => withStyle(colors.dim, str)
-const italic = (str) => withStyle(colors.italic, str)
+const printErr = (message) => console.error(c.red(message))
+const printWarn = (message) => console.warn(c.yellow(message))
+const printInfo = (message) => console.log(c.cyan(message))
 
 const printChecksResultTableHeader = (markdown) => {
   if (markdown) {
@@ -66,16 +32,15 @@ const printChecksResult = (
         ? `| _${destLang}_ | <details><summary>Missing ${nbMissing} ${what} :arrow_down:</summary><ul>${missingRuleNames.join(
             ' ',
           )}</ul></details> | :x: |`
-        : `❌ Missing ${red(nbMissing)} ${what} translations for ${yellow(
+        : `❌ Missing ${c.red(nbMissing)} ${what} translations for ${c.yellow(
             destLang,
-          )}!` +
-            `\n${missingRuleNames.map(([r, _]) => `  - ${red(r)}`).join('\n')}`,
+          )}!` + `\n${missingRuleNames.map((r) => `  - ${r}`).join('\n')}`,
     )
   } else {
     console.log(
       markdown
         ? `| _${destLang}_ | Ø | :heavy_check_mark: |`
-        : `✅ The ${what} translation are up to date for ${yellow(destLang)}`,
+        : `✅ The ${what} translation are up to date for ${c.yellow(destLang)}`,
     )
   }
 }
@@ -205,12 +170,12 @@ const exitIfError = (error, msg = undefined, progressBar = undefined) => {
 }
 
 const styledRuleNameWithOptionalAttr = (ruleName, attr) =>
-  `${magenta(ruleName)}${
-    attr !== undefined ? ` ${dim('>')} ${yellow(attr)}` : ''
+  `${c.magenta(ruleName)}${
+    attr !== undefined ? ` ${c.dim('>')} ${c.yellow(attr)}` : ''
   }`
 
 const styledPromptAction = (action) =>
-  `[${action[0]}]${dim(action.substring(1))}`
+  `[${action[0]}]${c.dim(action.substring(1))}`
 
 const styledPromptActions = (actions, sep = ' ') =>
   actions.map((action) => styledPromptAction(action)).join(sep)
@@ -224,19 +189,11 @@ const askYesNo = (question) => {
 
 module.exports = {
   ask,
-  colors,
-  dim,
-  italic,
   exitIfError,
   getArgs,
-  green,
-  magenta,
   printErr,
   printWarn,
   printInfo,
-  red,
-  withStyle,
-  yellow,
   printChecksResult,
   printChecksResultTableHeader,
   styledRuleNameWithOptionalAttr,
