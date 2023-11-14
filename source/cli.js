@@ -34,7 +34,7 @@ const printChecksResult = (
           )}</ul></details> | :x: |`
         : `❌ Missing ${c.red(nbMissing)} ${what} translations for ${c.yellow(
             destLang,
-          )}!` + `\n${missingRuleNames.map((r) => `  - ${r}`).join('\n')}`,
+          )}!`,
     )
   } else {
     console.log(
