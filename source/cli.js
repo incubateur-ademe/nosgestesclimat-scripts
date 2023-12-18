@@ -124,6 +124,14 @@ const getArgs = (description, opts) => {
         'Launch the interactive mode, to translate one rule at a time with the possibility to only update the lock attributes.',
     })
   }
+  if (opts.optimCanBeDisabled) {
+    args = args.option('disable-optim', {
+      alias: 'd',
+      type: 'boolean',
+      default: false,
+      description: 'Disable optimization for the compilation.',
+    })
+  }
 
   const argv = args.help().alias('help', 'h').argv
 
@@ -153,6 +161,7 @@ const getArgs = (description, opts) => {
     markdown: argv.markdown,
     onlyUpdateLocks: argv.onlyUpdateLocks,
     interactiveMode: argv.interactiveMode,
+    optimDisabled: argv.disableOptim,
   }
 }
 
