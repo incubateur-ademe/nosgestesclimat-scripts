@@ -166,10 +166,11 @@ const getMissingRules = (srcRules, targetRules) => {
   }
 
   return Object.entries(srcRules)
-    .filter(([_, val]) => val !== null && val !== undefined)
+    .filter(([_, val]) => val !== undefined)
     .reduce((acc, [rule, val]) => {
       let targetRule = targetRules[rule]
-      const valEntries = Object.entries(val)
+
+      const valEntries = val === null ? [] : Object.entries(val)
 
       if (!valEntries.map(([key, _]) => key).includes('titre')) {
         // Adds a default title if missing.
@@ -287,7 +288,7 @@ const customAssocPath = (path, val, obj) => {
 // no longer exist in the source language.
 const getNotUpToDateRuleTranslations = (srcRules, targetRules) => {
   return Object.entries(targetRules)
-    .filter(([_, val]) => val !== null && val !== undefined)
+    .filter(([_, val]) => val !== undefined)
     .reduce((acc, [rule, _]) => {
       if (srcRules[rule] === undefined) {
         acc.push(rule)
