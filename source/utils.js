@@ -15,7 +15,7 @@ const readYAML = (path) => {
   return yaml.parse(fs.readFileSync(path, 'utf-8'))
 }
 
-const writeYAML = (path, content, blockQuote = 'literal', sortMapEntries) => {
+const writeYAML = (path, content, blockQuote = true, sortMapEntries) => {
   resolveConfig(process.cwd()).then((prettierConfig) => {
     format(
       yaml.stringify(content, {
