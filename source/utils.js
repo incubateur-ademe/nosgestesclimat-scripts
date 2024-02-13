@@ -154,6 +154,7 @@ const mechanismsToTranslate = [
   'abréviation',
   'nom',
   'gentilé',
+  'avertissement'
 ]
 
 const getMissingRules = (srcRules, targetRules) => {
