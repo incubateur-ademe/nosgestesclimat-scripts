@@ -17,7 +17,7 @@ const escapeMarkdownLinks = (str) => {
         if (isImbricatedImgLink || !matchedStr.startsWith('[!')) {
           str = str.replace(
             matchedStr,
-            `<a href="${el.groups.url}">${el.groups.txt}</a>`,
+            `<a href="${el.groups.url}">${el.groups.txt}</a>`
           )
         }
       }
@@ -46,7 +46,7 @@ async function fetchTranslationMarkdown(srcMd, sourceLang, targetLang) {
   var trans = await fetchTranslation(
     escapedMd,
     normalizeLang(sourceLang),
-    normalizeLang(targetLang),
+    normalizeLang(targetLang)
   )
 
   trans = trans.replaceAll('&gt;', '>')
@@ -61,7 +61,7 @@ async function fetchTranslation(text, sourceLang, targetLang) {
     return text instanceof Array ? text.map(tradOrEmpty) : tradOrEmpty(text)
   }
   const glossary = await translator.getGlossary(
-    'bfe1506b-b7e6-49c6-90f2-bcd4488ab270',
+    'bfe1506b-b7e6-49c6-90f2-bcd4488ab270'
   )
   const resp = await translator.translateText(
     text,
@@ -71,8 +71,8 @@ async function fetchTranslation(text, sourceLang, targetLang) {
       ignoreTags: ['ignore'],
       preserveFormatting: true,
       glossary,
-      tagHandling: 'xml',
-    },
+      tagHandling: 'xml'
+    }
   )
   // here we replace html special character &amp; to & but it should be done for all characters.
   return resp instanceof Array
@@ -82,5 +82,5 @@ async function fetchTranslation(text, sourceLang, targetLang) {
 
 module.exports = {
   fetchTranslation,
-  fetchTranslationMarkdown,
+  fetchTranslationMarkdown
 }

@@ -24,23 +24,23 @@ const printChecksResult = (
   missingRuleNames,
   what,
   destLang,
-  markdown,
+  markdown
 ) => {
   if (nbMissing > 0) {
     console.log(
       markdown
         ? `| _${destLang}_ | <details><summary>Missing ${nbMissing} ${what} :arrow_down:</summary><ul>${missingRuleNames.join(
-            ' ',
+            ' '
           )}</ul></details> | :x: |`
         : `❌ Missing ${c.red(nbMissing)} ${what} translations for ${c.yellow(
-            destLang,
-          )}!`,
+            destLang
+          )}!`
     )
   } else {
     console.log(
       markdown
         ? `| _${destLang}_ | Ø | :heavy_check_mark: |`
-        : `✅ The ${what} translation are up to date for ${c.yellow(destLang)}`,
+        : `✅ The ${what} translation are up to date for ${c.yellow(destLang)}`
     )
   }
 }
@@ -57,7 +57,7 @@ const getArgs = (description, opts) => {
       type: 'string',
       default: utils.defaultLang,
       choices: utils.availableLanguages,
-      description: `The source language to translate from.`,
+      description: `The source language to translate from.`
     })
   }
   if (opts.force) {
@@ -65,7 +65,7 @@ const getArgs = (description, opts) => {
       alias: 'f',
       type: 'boolean',
       description:
-        'Force translation of all the keys. Its overwrites the existing translations.',
+        'Force translation of all the keys. Its overwrites the existing translations.'
     })
   }
   if (opts.file) {
@@ -74,14 +74,14 @@ const getArgs = (description, opts) => {
       type: 'string',
       description:
         opts.file.description ??
-        `The source file to translate from the 'locales/pages' directory. If not specified, all the files in 'locales/pages' will be translated.`,
+        `The source file to translate from the 'locales/pages' directory. If not specified, all the files in 'locales/pages' will be translated.`
     })
   }
   if (opts.remove) {
     args = args.option('remove', {
       alias: 'r',
       type: 'boolean',
-      description: `Remove the unused keys from the translation files.`,
+      description: `Remove the unused keys from the translation files.`
     })
   }
   if (opts.target) {
@@ -90,7 +90,7 @@ const getArgs = (description, opts) => {
       type: 'string',
       array: true,
       choices: utils.availableLanguages,
-      description: 'The target language(s) to translate into.',
+      description: 'The target language(s) to translate into.'
     })
   }
   if (opts.model) {
@@ -99,21 +99,21 @@ const getArgs = (description, opts) => {
       type: 'string',
       array: true,
       choices: opts.model.supportedRegionCodes,
-      description: 'The region code model.',
+      description: 'The region code model.'
     })
   }
   if (opts.markdown) {
     args = args.option('markdown', {
       alias: 'm',
       type: 'boolean',
-      description: 'Prints the result in a Markdown table format.',
+      description: 'Prints the result in a Markdown table format.'
     })
   }
   if (opts.onlyUpdateLocks) {
     args = args.option('only-update-locks', {
       alias: 'u',
       type: 'boolean',
-      description: 'Only update the lock attributes, do not translate.',
+      description: 'Only update the lock attributes, do not translate.'
     })
   }
   if (opts.interactiveMode) {
@@ -121,7 +121,7 @@ const getArgs = (description, opts) => {
       alias: 'i',
       type: 'boolean',
       description:
-        'Launch the interactive mode, to translate one rule at a time with the possibility to only update the lock attributes.',
+        'Launch the interactive mode, to translate one rule at a time with the possibility to only update the lock attributes.'
     })
   }
 
@@ -152,7 +152,7 @@ const getArgs = (description, opts) => {
     srcFile: argv.file ?? opts.defaultSrcFile,
     markdown: argv.markdown,
     onlyUpdateLocks: argv.onlyUpdateLocks,
-    interactiveMode: argv.interactiveMode,
+    interactiveMode: argv.interactiveMode
   }
 }
 
@@ -199,5 +199,5 @@ module.exports = {
   styledRuleNameWithOptionalAttr,
   styledPromptAction,
   styledPromptActions,
-  askYesNo,
+  askYesNo
 }
