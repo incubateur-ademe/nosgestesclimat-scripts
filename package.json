@@ -1,6 +1,6 @@
 {
   "name": "@incubateur-ademe/nosgestesclimat-scripts",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Set of common code used both in the website and the model repository of NGC",
   "scripts": {
     "build": "tsup",
