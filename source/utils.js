@@ -1,7 +1,7 @@
 require('dotenv').config()
 const glob = require('glob')
 const fs = require('fs')
-const path = require('path')
+const { join } = require('path')
 const { format, resolveConfig } = require('prettier')
 const yaml = require('yaml')
 
@@ -16,15 +16,16 @@ const readYAML = (path) => {
 }
 
 const writeYAML = (path, content, blockQuote = 'literal', sortMapEntries) => {
-  resolveConfig(process.cwd()).then((prettierConfig) => {
+  // shoudn't hard code config file name
+  resolveConfig(join(process.cwd(), '.prettierrc')).then((prettierConfig) => {
     format(
       yaml.stringify(content, {
         sortMapEntries,
         aliasDuplicateObjects: false,
         blockQuote,
-        lineWidth: 0,
+        lineWidth: 0
       }),
-      { ...prettierConfig, parser: 'yaml' },
+      { ...prettierConfig, parser: 'yaml' }
     ).then((formattedContent) => {
       fs.writeFileSync(path, formattedContent)
     })
@@ -57,7 +58,7 @@ const getUiMissingTranslations = (sourcePath, targetPath, override = false) => {
         (isI18nKey(freshKey) &&
           refVal !== translatedEntries[freshKey + LOCK_KEY_EXT])
       )
-    },
+    }
   )
 
   return missingTranslations
@@ -118,7 +119,7 @@ const getMissingPersonas = (refPersonas, destPersonas, force = false) => {
             acc.push({
               personaId: freshKey,
               attr,
-              refVal,
+              refVal
             })
           }
           return acc
@@ -138,7 +139,7 @@ const getMissingPersonas = (refPersonas, destPersonas, force = false) => {
           }
           return acc
         }, [])
-    },
+    }
   )
   return missingTranslations
 }
@@ -154,7 +155,7 @@ const mechanismsToTranslate = [
   'abréviation',
   'nom',
   'gentilé',
-  'avertissement',
+  'avertissement'
 ]
 
 const getMissingRules = (srcRules, targetRules) => {
@@ -232,7 +233,7 @@ const getMissingRules = (srcRules, targetRules) => {
                 acc.push({ rule, attr, refVal })
               }
               return acc
-            }, []),
+            }, [])
           )
         } else {
           // The rule doesn't exist in the target, so all attributes need to be translated.
@@ -246,7 +247,7 @@ const getMissingRules = (srcRules, targetRules) => {
                 default:
                   return { rule, attr, refVal }
               }
-            }),
+            })
           )
         }
         return acc
@@ -322,5 +323,5 @@ module.exports = {
   objPath,
   assoc,
   customAssocPath,
-  mechanismsToTranslate,
+  mechanismsToTranslate
 }
