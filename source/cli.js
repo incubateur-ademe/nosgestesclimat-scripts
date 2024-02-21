@@ -124,6 +124,13 @@ const getArgs = (description, opts) => {
         'Launch the interactive mode, to translate one rule at a time with the possibility to only update the lock attributes.'
     })
   }
+  if (opts.optimCanBeDisabled) {
+    args = args.option('no-optim', {
+      alias: 'n',
+      type: 'boolean',
+      description: 'Disable the optimization pass.'
+    })
+  }
 
   const argv = args.help().alias('help', 'h').argv
 
@@ -141,18 +148,14 @@ const getArgs = (description, opts) => {
   const destRegions = argv.model ?? opts?.model?.supportedRegionCodes
 
   return {
+    ...argv,
     srcLang,
     destLangs:
       !argv.target && opts.target === 'all'
         ? utils.availableLanguages
         : destLangs,
     destRegions,
-    force: argv.force,
-    remove: argv.remove,
-    srcFile: argv.file ?? opts.defaultSrcFile,
-    markdown: argv.markdown,
-    onlyUpdateLocks: argv.onlyUpdateLocks,
-    interactiveMode: argv.interactiveMode
+    srcFile: argv.file ?? opts.defaultSrcFile
   }
 }
 
