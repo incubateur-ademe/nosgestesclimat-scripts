@@ -132,6 +132,14 @@ const getArgs = (description, opts) => {
     })
   }
 
+  if (opts.optimCanBeForced) {
+    args = args.option('force-optim', {
+      alias: 'a',
+      type: 'boolean',
+      description: 'Force the optimization pass.'
+    })
+  }
+
   const argv = args.help().alias('help', 'h').argv
 
   const srcLang = argv.source ?? utils.defaultLang
