@@ -8,7 +8,7 @@ const yaml = require('yaml')
 const LOCK_KEY_EXT = '.lock'
 const AUTO_KEY_EXT = '.auto'
 const PREVIOUS_REVIEW_KEY_EXT = '.previous_review'
-const availableLanguages = ['fr', 'en'] //, 'es', 'it'] For now, we don't want es and it to be compile (it could create compilation errors).
+const availableLanguages = ['fr', 'en', 'es']
 const defaultLang = availableLanguages[0]
 
 const readYAML = (path) => {
@@ -39,7 +39,7 @@ const isI18nKey = (key) => {
 const getUiMissingTranslations = (sourcePath, targetPath, override = false) => {
   if (!fs.existsSync(targetPath) || override) {
     console.log(`Creating ${targetPath}`)
-    fs.writeFileSync(targetPath, '{}')
+    fs.writeFileSync(targetPath, 'entries: {}')
   }
 
   const freshEntries = readYAML(sourcePath).entries
