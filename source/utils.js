@@ -39,7 +39,7 @@ const isI18nKey = (key) => {
 const getUiMissingTranslations = (sourcePath, targetPath, override = false) => {
   if (!fs.existsSync(targetPath) || override) {
     console.log(`Creating ${targetPath}`)
-    fs.writeFileSync(targetPath, '{}')
+    fs.writeFileSync(targetPath, 'entries: {}')
   }
 
   const freshEntries = readYAML(sourcePath).entries
