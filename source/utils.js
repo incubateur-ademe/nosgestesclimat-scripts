@@ -314,10 +314,19 @@ const customAssocPath = (path, val, obj) => {
 // Returns the list of rules that are translated in the target language but
 // no longer exist in the source language.
 const getNotUpToDateRuleTranslations = (srcRules, targetRules) => {
+  const srcRulesDottedNames = [
+    ...Object.keys(srcRules),
+    ...Object.entries(srcRules).flatMap(([parentDottedName, rule]) =>
+      Object.keys(rule?.avec || {}).reduce((acc, avecDottedName) => {
+        acc.push(parentDottedName + ' . ' + avecDottedName)
+        return acc
+      }, [])
+    )
+  ].flat()
   return Object.entries(targetRules)
     .filter(([_, val]) => val !== undefined)
     .reduce((acc, [rule, _]) => {
-      if (srcRules[rule] === undefined) {
+      if (srcRulesDottedNames.includes(rule) === false) {
         acc.push(rule)
       }
       return acc
