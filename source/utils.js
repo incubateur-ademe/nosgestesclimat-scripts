@@ -166,90 +166,109 @@ const getMissingRules = (srcRules, targetRules) => {
     )
   }
 
+  const updateMissingRules = (parentAcc, srcRule, srcValEntries) => {
+    let targetRule = targetRules[srcRule]
+
+    if (!srcValEntries.map(([key, _]) => key).includes('titre')) {
+      // Adds a default title if missing.
+      const splitedRule = srcRule.split(' . ')
+      srcValEntries.push(['titre', splitedRule[splitedRule.length - 1]])
+    }
+
+    const filteredValEntries = srcValEntries.filter(([attr, val]) => {
+      const mosaiqueIncludeSuggestions =
+        // φ => ψ === ¬φ ∨ ψ
+        'mosaique' !== attr || val.suggestions
+      return (
+        mechanismsToTranslate.includes(attr) &&
+        val !== '' &&
+        mosaiqueIncludeSuggestions
+      )
+    })
+
+    if (targetRule) {
+      parentAcc.push(
+        filteredValEntries.reduce((acc, [attr, refVal]) => {
+          if (refVal === null) {
+            // The attribute value can be `null` for imported models (importer! mechanism), it should not be translated.
+            return acc
+          }
+          if (mechanismsToTranslate.includes(attr)) {
+            let targetRef = targetRule[attr + LOCK_KEY_EXT]
+            let hasTheSameRefValue
+            switch (attr) {
+              case 'suggestions': {
+                refVal = Object.keys(refVal)
+                hasTheSameRefValue = targetRef && areEqual(targetRef, refVal)
+                break
+              }
+              case 'mosaique': {
+                targetRef = targetRule[attr]?.['suggestions' + LOCK_KEY_EXT]
+                refVal = Object.keys(refVal.suggestions)
+                hasTheSameRefValue = targetRef && areEqual(targetRef, refVal)
+                break
+              }
+              default:
+                hasTheSameRefValue =
+                  targetRef &&
+                  // NOTE: avoid false positive caused by non trimmed white spaces.
+                  targetRef.replaceAll(' ', '') === refVal.replaceAll(' ', '')
+                break
+            }
+
+            if (hasTheSameRefValue && targetRule[attr]) {
+              // The rule is already translated.
+              return acc
+            }
+            acc.push({ rule: srcRule, attr, refVal })
+          }
+          return acc
+        }, [])
+      )
+    } else {
+      // The rule doesn't exist in the target, so all attributes need to be translated.
+      parentAcc.push(
+        filteredValEntries.map(([attr, refVal]) => {
+          switch (attr) {
+            case 'suggestions':
+              return { rule: srcRule, attr, refVal: Object.keys(refVal) }
+            case 'mosaique':
+              return {
+                rule: srcRule,
+                attr,
+                refVal: Object.keys(refVal.suggestions)
+              }
+            default:
+              return { rule: srcRule, attr, refVal }
+          }
+        })
+      )
+    }
+  }
+
   return (
     Object.entries(srcRules)
       // If source rule value is `undefined`, it means the rule is not in the model.
       // If it's `null`, it means it's an empty rule.
       .filter(([_, val]) => val !== undefined)
       .reduce((acc, [rule, val]) => {
-        let targetRule = targetRules[rule]
-
         const valEntries = val === null ? [] : Object.entries(val)
+        const valEntriesWithAvec = valEntries.filter(
+          ([key, _]) => key === 'avec'
+        )
 
-        if (!valEntries.map(([key, _]) => key).includes('titre')) {
-          // Adds a default title if missing.
-          const splitedRule = rule.split(' . ')
-          valEntries.push(['titre', splitedRule[splitedRule.length - 1]])
-        }
-
-        const filteredValEntries = valEntries.filter(([attr, val]) => {
-          const mosaiqueIncludeSuggestions =
-            // φ => ψ === ¬φ ∨ ψ
-            'mosaique' !== attr || val.suggestions
-          return (
-            mechanismsToTranslate.includes(attr) &&
-            val !== '' &&
-            mosaiqueIncludeSuggestions
-          )
-        })
-
-        if (targetRule) {
-          acc.push(
-            filteredValEntries.reduce((acc, [attr, refVal]) => {
-              if (refVal === null) {
-                // The attribute value can be `null` for imported models (importer! mechanism), it should not be translated.
-                return acc
-              }
-              if (mechanismsToTranslate.includes(attr)) {
-                let targetRef = targetRule[attr + LOCK_KEY_EXT]
-                let hasTheSameRefValue
-                switch (attr) {
-                  case 'suggestions': {
-                    refVal = Object.keys(refVal)
-                    hasTheSameRefValue =
-                      targetRef && areEqual(targetRef, refVal)
-                    break
-                  }
-                  case 'mosaique': {
-                    targetRef = targetRule[attr]?.['suggestions' + LOCK_KEY_EXT]
-                    refVal = Object.keys(refVal.suggestions)
-                    hasTheSameRefValue =
-                      targetRef && areEqual(targetRef, refVal)
-                    break
-                  }
-                  default:
-                    hasTheSameRefValue =
-                      targetRef &&
-                      // NOTE: avoid false positive caused by non trimmed white spaces.
-                      targetRef.replaceAll(' ', '') ===
-                        refVal.replaceAll(' ', '')
-                    break
-                }
-
-                if (hasTheSameRefValue && targetRule[attr]) {
-                  // The rule is already translated.
-                  return acc
-                }
-                acc.push({ rule, attr, refVal })
-              }
-              return acc
-            }, [])
-          )
-        } else {
-          // The rule doesn't exist in the target, so all attributes need to be translated.
-          acc.push(
-            filteredValEntries.map(([attr, refVal]) => {
-              switch (attr) {
-                case 'suggestions':
-                  return { rule, attr, refVal: Object.keys(refVal) }
-                case 'mosaique':
-                  return { rule, attr, refVal: Object.keys(refVal.suggestions) }
-                default:
-                  return { rule, attr, refVal }
-              }
+        if (valEntriesWithAvec.length > 0) {
+          valEntriesWithAvec.forEach(([_, avecRules]) => {
+            Object.entries(avecRules).forEach(([avecRule, avecVal]) => {
+              const avecValEntries =
+                avecVal === null ? [] : Object.entries(avecVal)
+              const fullAvecRule = rule + ' . ' + avecRule
+              updateMissingRules(acc, fullAvecRule, avecValEntries)
             })
-          )
+          })
         }
+
+        updateMissingRules(acc, rule, valEntries)
         return acc
       }, [])
       .flat()
