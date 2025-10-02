@@ -1,5 +1,4 @@
 require('dotenv').config()
-const glob = require('glob')
 const fs = require('fs')
 const { join } = require('path')
 const { format, resolveConfig } = require('prettier')
@@ -8,7 +7,7 @@ const yaml = require('yaml')
 const LOCK_KEY_EXT = '.lock'
 const AUTO_KEY_EXT = '.auto'
 const PREVIOUS_REVIEW_KEY_EXT = '.previous_review'
-const availableLanguages = ['fr', 'en', 'es']
+const availableLanguages = ['fr', 'en']
 const defaultLang = availableLanguages[0]
 
 const readYAML = (path) => {
