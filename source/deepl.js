@@ -62,20 +62,9 @@ async function fetchTranslation(text, sourceLang, targetLang) {
   }
 
   // to get the glossary id, use the script `deepl-glossary.js`
-
-  let glossary = ''
-  switch (targetLang) {
-    case 'en':
-      glossary = await translator.getGlossary(
-        '18d732e6-f33b-4091-adb0-4efb58b70692'
-      )
-      break
-    case 'es':
-      glossary = await translator.getGlossary(
-        '4f611960-852f-433e-8563-2a49385f9ff8'
-      )
-      break
-  }
+  const glossary = await translator.getGlossary(
+    '18d732e6-f33b-4091-adb0-4efb58b70692'
+  )
 
   const resp = await translator.translateText(
     text,
