@@ -8,12 +8,13 @@ const glossaryEntries = new deepl.GlossaryEntries({
 
 // Should delete 'old' created glossaries
 const main = async () => {
-  await translator.createGlossary(
+  const glossaryFRToEN = await translator.createGlossary(
     'Nos Gestes Climat glossary',
     'fr',
     'en-GB',
     glossaryEntries
   )
+
   console.log('Available glossaries:', await translator.listGlossaries())
 }
 
