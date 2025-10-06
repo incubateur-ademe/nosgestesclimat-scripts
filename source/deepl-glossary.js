@@ -15,12 +15,6 @@ const main = async () => {
     glossaryEntries
   )
 
-  const glossaryFRToES = await translator.createGlossary(
-    'Nos Gestes Climat glossary',
-    'fr',
-    'es',
-    glossaryEntries
-  )
   console.log('Available glossaries:', await translator.listGlossaries())
 }
 
