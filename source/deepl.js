@@ -3,6 +3,7 @@ const deepl = require('deepl-node')
 
 const NO_TRANS_CHAR = ' '
 
+/** @type {deepl.Translator} */
 const translator = new deepl.Translator(process.env.DEEPL_API_KEY)
 
 const simpleLinkRe = new RegExp(/[^!]\[(?<txt>.*?)\]\((?<url>.*?)\)/g)
