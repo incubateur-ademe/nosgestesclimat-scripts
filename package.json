@@ -4,8 +4,8 @@
   "description": "Set of common code used both in the website and the model repository of NGC",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "tsup",
-    "watch": "tsup --watch",
+    "build": "tsup ./source",
+    "watch": "tsup ./source --watch",
     "clean": "rm -rf dist docs",
     "docs": "typedoc",
     "format": "prettier --write .",
