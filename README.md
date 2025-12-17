@@ -25,16 +25,16 @@ TODO
 ```
 npm install --dev-dependency @incubateur-ademe/nsogstesclimat-scripts
 
-yarn add -D @incubateur-ademe/nsogstesclimat-scripts
+pnpm i -D @incubateur-ademe/nosgestesclimat-scripts
 ```
 
 ## Usage in local
 
 When developing in local:
 
-1. you can link the local package with `yarn link`,
-2. launch the compilation in watch mode with `yarn watch`,
-3. and use it in your project with `yarn link @incubateur-ademe/nsogstesclimat-scripts`.
+1. you can link the local package with `pnpm link`,
+2. launch the compilation in watch mode with `pnpm watch`,
+3. and use it in your project with `pnpm link @incubateur-ademe/nsogstesclimat-scripts`.
 
 [ci-link]: https://img.shields.io/github/actions/workflow/status/incubateur-ademe/nsogstesclimat-scripts/build.yml?logo=github&logoColor=white&label=build%20%26%20test
 [npm-link]: https://img.shields.io/npm/v/%40incubateur-ademe%2Fnsogstesclimat-scripts?logo=npm&logoColor=white&color=%23185dae
